@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 2040506956}
   - component: {fileID: 2040506958}
   - component: {fileID: 2040506959}
+  - component: {fileID: 2040506960}
   m_Layer: 0
   m_Name: Basketball
   m_TagString: Untagged
@@ -552,3 +553,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.18
+--- !u!114 &2040506960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040506955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4eb8f44bffc4243b0cbf13e77eb4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
