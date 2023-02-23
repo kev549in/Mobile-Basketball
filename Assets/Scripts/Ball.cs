@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour
     private Vector2 startPosition;
     private Vector2 endPosition;
     private Rigidbody2D physics;
+    private Vector2 defaultBallPosition;
     
 
     void Awake(){
@@ -17,6 +18,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         physics.isKinematic = true;
+        defaultBallPosition = transform.position;
     }
 
    
@@ -36,6 +38,13 @@ public class Ball : MonoBehaviour
              physics.AddForce(power * force, ForceMode2D.Force);
         }
         
+    }
+
+    void onCollisionEnter2D(Collision2D collision){
+        physics.isKinematic = true;
+        transform.position = defaultBallPosition;
+        physics.velocity = Vector2.zero;
+        physics.angularVelocity = 0f;
     }
 
     private Vector2 getMousePosition(){
