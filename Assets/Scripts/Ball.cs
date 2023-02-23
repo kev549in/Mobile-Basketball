@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class Ball : MonoBehaviour
     private Vector2 endPosition;
     private Rigidbody2D physics;
     private Vector2 defaultBallPosition;
-    
+    private Scene sceneMain;
+    private PhysicsScene2D sceneMainPhysics;
+    private Scene scenePrediction;
+    private PhysicsScene2D scenePredictionPhysics;
 
     void Awake(){
         physics = GetComponent<Rigidbody2D>();
@@ -19,6 +23,9 @@ public class Ball : MonoBehaviour
     {
         physics.isKinematic = true;
         defaultBallPosition = transform.position;
+
+        sceneMain = SceneManager.CreateScene("MainScene");
+        scenePrediction = SceneManager.CreateScene("PredictionScene");
     }
 
    
