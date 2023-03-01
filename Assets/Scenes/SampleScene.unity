@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 100
+  ballPrediction: {fileID: 2689674790215469929, guid: 1b102f496fe824863b4c96786609c8b1, type: 3}
 --- !u!120 &2040506961
 LineRenderer:
   m_ObjectHideFlags: 0
