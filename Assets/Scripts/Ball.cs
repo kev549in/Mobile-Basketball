@@ -16,7 +16,8 @@ public class Ball : MonoBehaviour
     private Scene scenePrediction;
     private PhysicsScene2D scenePredictionPhysics;
 
-    void Awake(){
+    void Awake()
+    {
         physics = GetComponent<Rigidbody2D>();
     }
 
@@ -29,75 +30,70 @@ public class Ball : MonoBehaviour
 
         sceneMain = SceneManager.CreateScene("MainScene");
         sceneMainPhysics = sceneMain.GetPhysicsScene2D();
-        
+
         scenePrediction = SceneManager.CreateScene("PredictionScene");
         scenePredictionPhysics = scenePrediction.GetPhysicsScene2D();
     }
 
-   
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)){
-           
+        if (Input.GetMouseButtonDown(0))
+        {
             startPosition = getMousePosition();
             Debug.Log(startPosition);
         }
 
-        if(Input.GetMouseButton(0)){
-           Vector2 dragPosition = getMousePosition();
-           Vector2 power = startPosition - dragPosition;
+        if (Input.GetMouseButton(0))
+        {
+            Vector2 dragPosition = getMousePosition();
+            Vector2 power = startPosition - dragPosition;
 
-           GameObject newBallPrediction = GameObject.Instantiate(ballPrediction);
-           SceneManager.MoveGameObjectToScene(newBallPrediction, scenePrediction);
-           newBallPrediction.transform.position = transform.position;
+            GameObject newBallPrediction = Instantiate(ballPrediction);
+            SceneManager.MoveGameObjectToScene(newBallPrediction, scenePrediction);
+            newBallPrediction.transform.position = transform.position;
 
-           newBallPrediction.GetComponent<Rigidbody2D>().AddForce(power * force, ForceMode2D.Force);
+            newBallPrediction.GetComponent<Rigidbody2D>().AddForce(power * force, ForceMode2D.Force);
 
-           LineRenderer ballLine = GetComponent<LineRenderer>();
-           ballLine.positionCount = 50;
+            LineRenderer ballLine = newBallPrediction.GetComponent<LineRenderer>();
+            ballLine.positionCount = 50;
 
-           for(int i=0; i<50; i++){
-            scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
-            ballLine.SetPosition(i, new Vector3(newBallPrediction.transform.position.x, newBallPrediction.transform.position.y, 0));
-           }
-             
+            for (int i = 0; i < 50; i++)
+            {
+                scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
+                ballLine.SetPosition(i, new Vector3(newBallPrediction.transform.position.x, newBallPrediction.transform.position.y, 0));
+            }
+
             Destroy(newBallPrediction);
+        }
 
-         if(Input.GetMouseButtonUp(0)){
-                endPosition = getMousePosition();
+        if (Input.GetMouseButtonUp(0))
+        {
+            endPosition = getMousePosition();
 
             Vector2 power = startPosition - endPosition;
             physics.isKinematic = false;
 
-             physics.AddForce(power * force, ForceMode2D.Force);
-            
+            physics.AddForce(power * force, ForceMode2D.Force);
         }
-        
-        Destroy(newBallPrediction);
-        }
-
-
-}
-
-    void FixedUpdate(){
-         if(!sceneMainPhysics.IsValid()) return;
-         
-         scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
     }
 
-    void onCollisionEnter2D(Collision2D collision)
+    void FixedUpdate()
+    {
+        if (!sceneMainPhysics.IsValid()) return;
+
+        scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
         physics.isKinematic = true;
         transform.position = defaultBallPosition;
         physics.velocity = Vector2.zero;
         physics.angularVelocity = 0f;
     }
-    
 
     private Vector2 getMousePosition()
     {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);        
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-
-    
-}       
+}
