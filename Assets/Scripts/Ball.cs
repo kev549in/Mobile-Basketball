@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Ball : MonoBehaviour
 {
     public float force = 100f;
+    public int maxTrajectoryIteration = 50;
     public GameObject ballPrediction;
     private Vector2 startPosition;
     private Vector2 endPosition;
@@ -28,56 +29,39 @@ public class Ball : MonoBehaviour
         physics.isKinematic = true;
         defaultBallPosition = transform.position;
 
-        sceneMain = SceneManager.CreateScene("MainScene");
-        sceneMainPhysics = sceneMain.GetPhysicsScene2D();
-
-        scenePrediction = SceneManager.CreateScene("PredictionScene");
-        scenePredictionPhysics = scenePrediction.GetPhysicsScene2D();
+        createSceneMain();
+        createScenePrediction();
+       
     }
 
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             startPosition = getMousePosition();
-            Debug.Log(startPosition);
         }
 
         if (Input.GetMouseButton(0))
         {
-            Vector2 dragPosition = getMousePosition();
-            Vector2 power = startPosition - dragPosition;
+            GameObject newBallPrediction = spawnBallPrediction();
+            throwBall(newBallPrediction.GetComponent<Rigidbody2D>());
 
-            GameObject newBallPrediction = Instantiate(ballPrediction);
-            SceneManager.MoveGameObjectToScene(newBallPrediction, scenePrediction);
-            newBallPrediction.transform.position = transform.position;
-
-            newBallPrediction.GetComponent<Rigidbody2D>().AddForce(power * force, ForceMode2D.Force);
-
-            LineRenderer ballLine = newBallPrediction.GetComponent<LineRenderer>();
-            ballLine.positionCount = 50;
-
-            for (int i = 0; i < 50; i++)
-            {
-                scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
-                ballLine.SetPosition(i, new Vector3(newBallPrediction.transform.position.x, newBallPrediction.transform.position.y, 0));
-            }
-
+            createTrajectory(newBallPrediction);
+    
             Destroy(newBallPrediction);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            endPosition = getMousePosition();
-
-            Vector2 power = startPosition - endPosition;
+            GetComponent<LineRenderer>().positionCount = 0;
             physics.isKinematic = false;
 
-            physics.AddForce(power * force, ForceMode2D.Force);
+            throwBall(physics);
         }
     }
 
-    void FixedUpdate()
+     void FixedUpdate()
     {
         if (!sceneMainPhysics.IsValid()) return;
 
@@ -92,8 +76,56 @@ public class Ball : MonoBehaviour
         physics.angularVelocity = 0f;
     }
 
+    private void createTrajectory(GameObject newBallPrediction)
+    {
+         LineRenderer ballLine = GetComponent<LineRenderer>();
+         ballLine.positionCount = maxTrajectoryIteration;
+
+        for (int i = 0; i < maxTrajectoryIteration; i++)
+        {
+           scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
+           ballLine.SetPosition(i, new Vector3(newBallPrediction.transform.position.x, newBallPrediction.transform.position.y, 0));
+        }
+    }
+
+    private void throwBall(Rigidbody2D physics)
+    {
+        physics.AddForce(getThrowPower(startPosition, endPosition), ForceMode2D.Force);
+    }
+
+    private GameObject spawnBallPrediction()
+    {
+        GameObject newBallPrediction = Instantiate(ballPrediction);
+        SceneManager.MoveGameObjectToScene(newBallPrediction, scenePrediction);
+        newBallPrediction.transform.position = transform.position;
+
+        return newBallPrediction;
+    }
+    private Vector2 getThrowPower(Vector2 startPosition, Vector2 endPosition)
+    {
+        return (startPosition - endPosition) * force;
+    }
+
+
+   
+
     private Vector2 getMousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+
+
+    private void createSceneMain()
+    {
+        sceneMain = SceneManager.CreateScene("MainScene");
+        sceneMainPhysics = sceneMain.GetPhysicsScene2D();
+    }
+
+    private void createScenePrediction()
+    {
+        CreateSceneParameters sceneParameters = new CreateSceneParameters(LocalPhysicsMode.Physics2D);
+        scenePrediction = SceneManager.CreateScene("PredictionScene", sceneParameters);
+        scenePredictionPhysics = scenePrediction.GetPhysicsScene2D();
     }
 }
