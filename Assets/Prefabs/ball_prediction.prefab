@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8100409742660379737}
   - component: {fileID: 2846345953268241664}
   - component: {fileID: 9176109170170213746}
+  - component: {fileID: -6681129422374453158}
   m_Layer: 0
   m_Name: ball_prediction
   m_TagString: Untagged
@@ -122,4 +123,19 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.18
+  m_Radius: 1
+--- !u!114 &-6681129422374453158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2689674790215469929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4eb8f44bffc4243b0cbf13e77eb4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 100
+  maxTrajectoryIteration: 50
+  ballPrediction: {fileID: 2689674790215469929}

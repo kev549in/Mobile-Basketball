@@ -24,8 +24,7 @@ public class Ball : MonoBehaviour
 
     void Start()
     {
-        Physics2D.simulationMode = SimulationMode2D.Script;
-
+        
         physics.isKinematic = true;
         defaultBallPosition = transform.position;
 
