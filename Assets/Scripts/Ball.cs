@@ -76,6 +76,11 @@ public class Ball : MonoBehaviour
         physics.angularVelocity = 0f;
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log("Scored");
+    }
+
     private void createTrajectory(GameObject newBallPrediction)
     {
          LineRenderer ballLine = GetComponent<LineRenderer>();
