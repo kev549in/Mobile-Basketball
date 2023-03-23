@@ -16,6 +16,7 @@ public class Ball : MonoBehaviour
     private PhysicsScene2D sceneMainPhysics;
     private Scene scenePrediction;
     private PhysicsScene2D scenePredictionPhysics;
+    private float ballScorePosition;
 
     void Awake()
     {
@@ -78,7 +79,15 @@ public class Ball : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("Scored");
+        ballScorePosition = transform.position.y;
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if(transform.position.y < ballScorePosition)
+        {
+            Debug.Log("Score");
+        }
     }
 
     private void createTrajectory(GameObject newBallPrediction)
