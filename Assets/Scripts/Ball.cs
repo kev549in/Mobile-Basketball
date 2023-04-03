@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Ball : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Ball : MonoBehaviour
     private Scene scenePrediction;
     private PhysicsScene2D scenePredictionPhysics;
     private float ballScorePosition;
+    public UnityEvent scoredEvent;
 
     void Awake()
     {
@@ -87,6 +89,7 @@ public class Ball : MonoBehaviour
         if(transform.position.y < ballScorePosition)
         {
             Debug.Log("Score");
+            scoredEvent.Invoke();
         }
     }
 
