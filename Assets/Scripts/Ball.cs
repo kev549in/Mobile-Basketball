@@ -84,14 +84,7 @@ public class Ball : MonoBehaviour
         ballScorePosition = transform.position.y;
     }
 
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        if(transform.position.y < ballScorePosition)
-        {
-            Debug.Log("Score");
-            scoredEvent.Invoke();
-        }
-    }
+   
 
     private void createTrajectory(GameObject newBallPrediction)
     {
@@ -145,4 +138,18 @@ public class Ball : MonoBehaviour
         scenePrediction = SceneManager.CreateScene("PredictionScene", sceneParameters);
         scenePredictionPhysics = scenePrediction.GetPhysicsScene2D();
     }
+    void OnTriggerExit2D(Collider2D collider)
+{
+    if(transform.position.y < ballScorePosition)
+    {
+        Debug.Log("Score");
+        scoredEvent.Invoke();
+    }
+
+    // Reset ball position
+    transform.position = defaultBallPosition;
+    physics.velocity = Vector2.zero;
+    physics.angularVelocity = 0f;
+}
+
 }
