@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour
     private PhysicsScene2D scenePredictionPhysics;
     private float ballScorePosition;
     public UnityEvent scoredEvent;
-    private UnityEvent onGroundEvent;
+    private UnityEvent <Transform> onGroundEvent;
 
     void Awake()
     {
@@ -158,6 +158,6 @@ public class Ball : MonoBehaviour
         physics.velocity = Vector2.zero;
         physics.angularVelocity = 0f;
 
-        onGroundEvent.Invoke();
+        onGroundEvent.Invoke(transform);
     }
 }
