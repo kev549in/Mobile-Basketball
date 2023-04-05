@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     private PhysicsScene2D scenePredictionPhysics;
     private float ballScorePosition;
     public UnityEvent scoredEvent;
+    private UnityEvent onGroundEvent;
 
     void Awake()
     {
@@ -72,12 +73,9 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(!collision.gameObject.tag.Equals("ground")) return;
-        physics.isKinematic = true;
-        transform.position = defaultBallPosition;
-        physics.velocity = Vector2.zero;
-        physics.angularVelocity = 0f;
+        checkGroundContact(collision);
     }
+
 
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -152,4 +150,14 @@ public class Ball : MonoBehaviour
     physics.angularVelocity = 0f;
 }
 
+ private void checkGroundContact(Collision2D collision)
+    {
+        if(!collision.gameObject.tag.Equals("ground")) return;
+        
+        physics.isKinematic = true;
+        physics.velocity = Vector2.zero;
+        physics.angularVelocity = 0f;
+
+        onGroundEvent.Invoke();
+    }
 }
