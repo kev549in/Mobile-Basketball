@@ -151,13 +151,20 @@ public class Ball : MonoBehaviour
 }
 
  private void checkGroundContact(Collision2D collision)
-    {
-        if(!collision.gameObject.tag.Equals("ground")) return;
-        
-        physics.isKinematic = true;
-        physics.velocity = Vector2.zero;
-        physics.angularVelocity = 0f;
+{
+    if(!collision.gameObject.tag.Equals("ground")) return;
+    
+    physics.isKinematic = true;
+    physics.velocity = Vector2.zero;
+    physics.angularVelocity = 0f;
 
-        onGroundEvent.Invoke(transform);
-    }
+    onGroundEvent.Invoke(transform);
+
+    // Respawn ball at default position
+    transform.position = defaultBallPosition;
+}
+
+    
+       
+    
 }

@@ -10,12 +10,29 @@ public class SpawnArea : MonoBehaviour
     private float top;
     private float bottom;
 
-    public void spawnBall(Transform ballTransform)
+    void Start()
     {
-        float x = Random.Range(left, right);
-        float y = Random.Range(bottom, top);
+        left = transform.position.x - size.x / 2;
+        right = transform.position.x + size.x / 2;
+        top = transform.position.y + size.y / 2;
+        bottom = transform.position.y - size.y / 2;
+    }
 
-        ballTransform.position = new Vector3(x, y);
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Ball"))
+        {
+            ResetBall(other.transform);
+        }
+    }
+
+    private void ResetBall(Transform ballTransform)
+    {
+        // Reset ball position and velocity
+        ballTransform.position = new Vector3(Random.Range(left, right), Random.Range(bottom, top));
+        Rigidbody2D ballRigidbody = ballTransform.GetComponent<Rigidbody2D>();
+        ballRigidbody.velocity = Vector2.zero;
+        ballRigidbody.angularVelocity = 0f;
     }
 
     private void OnDrawGizmos()
