@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour
     private PhysicsScene2D scenePredictionPhysics;
     private float ballScorePosition;
     public UnityEvent scoredEvent;
-    private UnityEvent <Transform> onGroundEvent;
+    public UnityEvent <Transform> onGroundEvent;
 
     void Awake()
     {
