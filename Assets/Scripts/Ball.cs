@@ -6,7 +6,10 @@ using UnityEngine.Events;
 
 public class Ball : MonoBehaviour
 {
-    public float force = 100f;
+    [SerializeField]
+
+    private float force = 100f;
+    [SerializeField]
     public int maxTrajectoryIteration = 50;
     public GameObject ballPrediction;
     private Vector2 startPosition;

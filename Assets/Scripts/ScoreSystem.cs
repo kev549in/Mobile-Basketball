@@ -5,8 +5,9 @@ using TMPro;
 
 public class ScoreSystem : MonoBehaviour
 {
-   
-    public TMP_Text scoreText;
+   [SerializeField]
+    
+    private TMP_Text scoreText;
     private int score = 0;
 
 
@@ -14,5 +15,5 @@ public class ScoreSystem : MonoBehaviour
     {
         score += 1;
         scoreText.SetText(score.ToString());
-    }
+    }   
 }
