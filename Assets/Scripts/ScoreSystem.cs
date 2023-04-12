@@ -6,7 +6,8 @@ using TMPro;
 public class ScoreSystem : MonoBehaviour
 {
    [SerializeField]
-    
+    private GameObject ballPrefab;
+    [SerializeField]
     private TMP_Text scoreText;
     private int score = 0;
 
@@ -16,4 +17,9 @@ public class ScoreSystem : MonoBehaviour
         score += 1;
         scoreText.SetText(score.ToString());
     }   
+
+    public void startGame()
+    {
+        GameObject ball = Instantiate(ballPrefab);
+    }
 }
