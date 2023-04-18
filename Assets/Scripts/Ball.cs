@@ -23,10 +23,12 @@ public class Ball : MonoBehaviour
     private float ballScorePosition;
     public UnityEvent scoredEvent;
     public UnityEvent <Transform> onGroundEvent;
+    private AudioSource ballBounceSound;
 
     void Awake()
     {
         physics = GetComponent<Rigidbody2D>();
+        ballBounceSound = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -156,12 +158,13 @@ public class Ball : MonoBehaviour
  private void checkGroundContact(Collision2D collision)
 {
     if(!collision.gameObject.tag.Equals("ground")) return;
+    ballBounceSound.Play();
     
     physics.isKinematic = true;
     physics.velocity = Vector2.zero;
     physics.angularVelocity = 0f;
 
-    onGroundEvent.Invoke(transform);
+    //onGroundEvent.Invoke(transform);
 
     // Respawn ball at default position
     transform.position = defaultBallPosition;
