@@ -23,14 +23,7 @@ public class Ball : MonoBehaviour
     private float ballScorePosition;
     public UnityEvent scoredEvent;
     public UnityEvent <Transform> onGroundEvent;
-    private AudioSource ballBounceSound;
-
-    void Awake()
-    {
-        physics = GetComponent<Rigidbody2D>();
-        ballBounceSound = GetComponent<AudioSource>();
-    }
-
+    
     void Start()
     {
         
