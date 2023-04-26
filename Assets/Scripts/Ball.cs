@@ -10,6 +10,7 @@ public class Ball : MonoBehaviour
 
     private float force = 100f;
     [SerializeField]
+    public AudioSource audioPlayer;
     public int maxTrajectoryIteration = 50;
     public GameObject ballPrediction;
     private Vector2 startPosition;
@@ -153,21 +154,32 @@ public class Ball : MonoBehaviour
     physics.angularVelocity = 0f;
 }
 
- private void checkGroundContact(Collision2D collision)
+ public void checkGroundContact(Collision2D collision)
 {
+    if(collision.gameObject.tag == "ground")
+    {
+        audioPlayer.Play();
+    }
+
     if(!collision.gameObject.tag.Equals("ground")) return;
+
+    
+  
+    
+  
     
     physics.isKinematic = true;
     physics.velocity = Vector2.zero;
     physics.angularVelocity = 0f;
 
     onGroundEvent.Invoke(transform);
+    
 
     // Respawn ball at default position
     transform.position = defaultBallPosition;
+    
 }
 
-    
-       
-    
+  
+
 }
