@@ -71,8 +71,11 @@ public class Ball : MonoBehaviour
      void FixedUpdate()
     {
         if (!sceneMainPhysics.IsValid()) return;
+        Physics2D.simulationMode = SimulationMode2D.Script; // set the simulation mode to 'Script'
+         Physics2D.Simulate(Time.fixedDeltaTime);
 
-        scenePredictionPhysics.Simulate(Time.fixedDeltaTime);
+
+       
     }
 
     void OnCollisionEnter2D(Collision2D collision)
